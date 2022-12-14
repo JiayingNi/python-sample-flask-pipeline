@@ -38,8 +38,8 @@ stages:
           import time, datetime, os
           import pandas as pd
           import numpy as np
-          import pyperclip
-          import pymssql
+          # import pyperclip
+          # import pymssql
           from tabulate import tabulate
           import requests
           import json
@@ -57,7 +57,7 @@ stages:
           month_file = '202212'
           # file_time = now_time.strftime('%Y%m%d')
           # month_file = now_time.strftime('%Y%m')
-          
+
           hour = now_time.hour
           minute = now_time.minute
           sec = now_time.second
