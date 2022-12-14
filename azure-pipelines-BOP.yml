@@ -52,8 +52,12 @@ stages:
           # for the time gap on server
           # time_gap = datetime.timedelta(hours=8)
           # now_time = now_time + time_gap
-          file_time = now_time.strftime('%Y%m%d')
-          month_file = now_time.strftime('%Y%m')
+
+          file_time = '20221212'
+          month_file = '202212'
+          # file_time = now_time.strftime('%Y%m%d')
+          # month_file = now_time.strftime('%Y%m')
+          
           hour = now_time.hour
           minute = now_time.minute
           sec = now_time.second
