@@ -5,20 +5,12 @@
 
 
 # tool bag import
-import sys, win32com.client
-import win32api,win32gui,win32con,win32ui,time,os,subprocess
-import win32com.client, subprocess
-import time, datetime, os
+import datetime
 import pandas as pd
 import numpy as np
-# import pyperclip
-# import pymssql
-from tabulate import tabulate
 import requests
 import json
-import os, ssl
 import pandas as pd
-import urllib
 
 # create blank month_file folder
 now_time = datetime.datetime.now()
