@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
-
-
 # tool bag import
+
 # import sys, win32com.client
 # import win32api,win32gui,win32con,win32ui,time,os,subprocess
 # import win32com.client, subprocess
@@ -22,6 +20,7 @@ import os
 import pandas as pd
 # import urllib
 
+
 # create blank month_file folder
 now_time = datetime.datetime.now()
 # for the time gap on server
@@ -29,11 +28,13 @@ now_time = datetime.datetime.now()
 # now_time = now_time + time_gap
 
 # for test
+'''
 file_time = '20221212'
 month_file = '202212'
+'''
 
-'''file_time = now_time.strftime('%Y%m%d')
-month_file = now_time.strftime('%Y%m')'''
+file_time = now_time.strftime('%Y%m%d')
+month_file = now_time.strftime('%Y%m')
 
 hour = now_time.hour
 minute = now_time.minute
@@ -430,12 +431,11 @@ up_filepath = './local.xlsx'
 uploadFile(up_folder,up_filename,up_filepath)
 
 # Monitoring 2 - MAD Old not update in the past 3 workdays
-import datetime as dt
 try:
     if now_time.isoweekday() == 1 or now_time.isoweekday() == 2 or now_time.isoweekday() == 3:
-        lst_file_time = now_time-dt.timedelta(days = 5)
+        lst_file_time = now_time-datetime.timedelta(days = 5)
     else:
-        lst_file_time = now_time-dt.timedelta(days = 3)
+        lst_file_time = now_time-datetime.timedelta(days = 3)
     lst_file_time = lst_file_time.strftime('%Y%m%d')
     try:
         list_file = getFolder(f'BOP Result/{region}/{month_file}')
@@ -448,7 +448,7 @@ try:
         if f["status"] == 1:
             df_lst = pd.read_excel(f["content"], sheet_name = 'Full List')
     except:
-        lst_month_file = dt.datetime(now_time.year, now_time.month - 1, 1).strftime('%Y%m')
+        lst_month_file = datetime.datetime(now_time.year, now_time.month - 1, 1).strftime('%Y%m')
         list_file = getFolder(f'BOP Result/{region}/{lst_month_file}')
         for i in range(0,len(list_file)):
             if list_file[i].startswith(lst_file_time):
@@ -559,4 +559,3 @@ try:
     uploadFile(up_folder,up_filename,up_filepath)
 except:
     pass
-
