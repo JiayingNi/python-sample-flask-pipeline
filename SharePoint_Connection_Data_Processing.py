@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[49]:
+
+
 # tool bag import
 
 # import sys, win32com.client
@@ -20,21 +23,21 @@ import os
 import pandas as pd
 # import urllib
 
-
 # create blank month_file folder
-now_time = datetime.datetime.now()
+# now_time = datetime.datetime.now()
+
+now_time = datetime.datetime(2022, 12, 15, 10, 25, 20, 454992)
+
 # for the time gap on server
 # time_gap = datetime.timedelta(hours=8)
 # now_time = now_time + time_gap
 
 # for test
-'''
-file_time = '20221212'
+file_time = '20221215'
 month_file = '202212'
-'''
 
-file_time = now_time.strftime('%Y%m%d')
-month_file = now_time.strftime('%Y%m')
+'''file_time = now_time.strftime('%Y%m%d')
+month_file = now_time.strftime('%Y%m')'''
 
 hour = now_time.hour
 minute = now_time.minute
@@ -431,6 +434,18 @@ up_filepath = './local.xlsx'
 uploadFile(up_folder,up_filename,up_filepath)
 
 # Monitoring 2 - MAD Old not update in the past 3 workdays
+def get3DayPastFolderName(get_folder,last_day):
+    uploadUrl = f"https://{site_url}/_api/web/GetFolderByServerRelativeUrl('/teams/DCS_Global_BOP_Process_Management_Teams/Shared Documents/General/{get_folder}')/Folders"
+    headers = {"Authorization":"Bearer " + json_data['access_token'],"Accept": "application/json;odata=verbose"
+    }
+    r = requests.get(uploadUrl,headers=headers, verify = False)
+    l = json.loads(r.text)["d"]["results"]
+    get_folder_list =[]
+    for folder in l:
+        get_folder_list.append(folder["Name"])
+    for folder in get_folder_list:
+        if folder.find(lst_file_time)>-1:
+            return folder
 try:
     if now_time.isoweekday() == 1 or now_time.isoweekday() == 2 or now_time.isoweekday() == 3:
         lst_file_time = now_time-datetime.timedelta(days = 5)
@@ -438,10 +453,7 @@ try:
         lst_file_time = now_time-datetime.timedelta(days = 3)
     lst_file_time = lst_file_time.strftime('%Y%m%d')
     try:
-        list_file = getFolder(f'BOP Result/{region}/{month_file}')
-        for i in range(0,len(list_file)):
-            if list_file[i].startswith(lst_file_time):
-                lst_file = list_file[i]
+        lst_file = get3DayPastFolderName(f'BOP Result/{region}/{month_file}',lst_file_time)
         get_folder = f'BOP Result/{region}/{month_file}/{lst_file}'
         get_filename = f'{lst_file_time} Full List.xlsx'
         f = getFile(get_folder,get_filename)
@@ -449,10 +461,7 @@ try:
             df_lst = pd.read_excel(f["content"], sheet_name = 'Full List')
     except:
         lst_month_file = datetime.datetime(now_time.year, now_time.month - 1, 1).strftime('%Y%m')
-        list_file = getFolder(f'BOP Result/{region}/{lst_month_file}')
-        for i in range(0,len(list_file)):
-            if list_file[i].startswith(lst_file_time):
-                lst_file = list_file[i]
+        lst_file = get3DayPastFolderName(f'BOP Result/{region}/{lst_month_file}',lst_file_time)
         get_folder = f'BOP Result/{region}/{month_file}/{lst_file}'
         get_filename = f'{lst_file_time} Full List.xlsx'
         f = getFile(get_folder,get_filename)
@@ -535,9 +544,9 @@ try:
     MBDATIP_df = df_td.copy()
 
     if now_time.isoweekday() == 1 or now_time.isoweekday() == 2 or now_time.isoweekday() == 3:
-        time_point = now_time-dt.timedelta(days = 6)
+        time_point = now_time-datetime.timedelta(days = 6)
     else:
-        time_point = now_time-dt.timedelta(days = 4)
+        time_point = now_time-datetime.timedelta(days = 4)
 
     time_point = time_point.strftime('%Y%m%d')
     for i in MBDATIP_df.index:
