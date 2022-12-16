@@ -24,20 +24,20 @@ import pandas as pd
 # import urllib
 
 # create blank month_file folder
-# now_time = datetime.datetime.now()
-
-now_time = datetime.datetime(2022, 12, 15, 10, 25, 20, 454992)
+now_time = datetime.datetime.now()
+# now_time = datetime.datetime(2022, 12, 15, 10, 25, 20, 454992)
 
 # for the time gap on server
 # time_gap = datetime.timedelta(hours=8)
 # now_time = now_time + time_gap
 
 # for test
+'''
 file_time = '20221215'
 month_file = '202212'
-
-'''file_time = now_time.strftime('%Y%m%d')
-month_file = now_time.strftime('%Y%m')'''
+'''
+file_time = now_time.strftime('%Y%m%d')
+month_file = now_time.strftime('%Y%m')
 
 hour = now_time.hour
 minute = now_time.minute
